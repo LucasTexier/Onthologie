@@ -1,0 +1,60 @@
+.wrapper {
+  position: relative;
+  margin: 30px auto;
+}
+
+.gears {
+  width: 200px;
+  height: 200px;
+  background-color: #333;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: scale(0);
+  animation: scale 0.5s ease forwards;
+}
+
+@keyframes scale {
+  to {
+    transform: scale(1);
+  }
+}
+
+.gear-wrapper {
+  position: absolute;
+}
+
+.gear {
+  fill: #e4e4e4;
+  transform-origin: 100% 100%;
+}
+
+.gear-1 {
+  width: 90px;
+  height: 90px;
+  animation: gearRotate 1s linear 0.1s infinite reverse;
+}
+
+.gear-2 {
+  width: 150px;
+  height: 150px;
+  animation: gearRotate 1.5s linear 0.1s infinite;
+}
+
+.gear-3 {
+  width: 60px;
+  height: 60px;
+  animation: gearRotate 0.75s linear 0.1s infinite reverse;
+}
+
+.gear-4 {
+  width: 120px;
+  height: 110px;
+  animation: gearRotate 1.25s linear 0.1s infinite;
+}
+
+@keyframes gearRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
