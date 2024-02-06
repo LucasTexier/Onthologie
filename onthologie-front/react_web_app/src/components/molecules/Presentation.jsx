@@ -38,8 +38,8 @@ export default function SimplePaper() {
                     height: '100vh',
                 }}
             >
-                <Box sx={{ marginTop: '100px', marginRight: '70px', marginLeft: '50px' }}>
-                    <Paper elevation={10} sx={{ width: 700, height: 350 }}>
+                <Box sx={{ marginTop: '100px', marginRight: '70px', marginLeft: '50px'}}>
+                    <Paper elevation={20} sx={{ width: 700, height: 350 , backgroundColor:"darkgray"}}>
                         <Typography variant="h2" align="center">
                             Qui sommes nous ?
                         </Typography>
@@ -50,7 +50,7 @@ export default function SimplePaper() {
                     </Paper>
                 </Box>
                 <Box sx={{ marginTop: '275px' }}>
-                    <Paper elevation={10} sx={{ width: 500, height: 800 }}>
+                    <Paper elevation={20} sx={{ width: 500, height: 800, backgroundColor:"darkgray"}}>
                         <Typography variant="h2" align="center">
                             Notre équipe
                         </Typography>
@@ -76,7 +76,7 @@ export default function SimplePaper() {
                     </Paper>
                 </Box>
                 <Box sx={{ marginTop: '100px', marginRight: '50px', marginLeft: '70px' }}>
-                    <Paper elevation={10} sx={{ width: 700, height: 350 }}>
+                    <Paper elevation={20} sx={{ width: 700, height: 350, backgroundColor:"darkgray" }}>
                     <Typography variant="h2" align="center">
                             Démarrer l'expérience !
                         </Typography>

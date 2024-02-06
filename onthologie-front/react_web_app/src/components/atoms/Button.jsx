@@ -12,8 +12,8 @@ export default function GroupSizesColors() {
         navigate(path);
     };
     const buttons = [
-        <Button key="one" sx={{ borderWidth: 2, borderRadius: 10 }} onClick={() => handleNavigate("/info")}>Chercher par filtrage</Button>,
-        <Button key="two" sx={{ borderWidth: 2, borderRadius: 10 }} onClick={() => handleNavigate("/autre")}>Se faire recommander</Button>,
+        <Button key="one" sx={{ borderWidth: 5, borderRadius: 10, color: 'white', fontSize: '1rem', backgroundColor:"darkred"}} onClick={() => handleNavigate("/filtre")}>Chercher par filtrage</Button>,
+        <Button key="two" sx={{ borderWidth: 5, borderRadius: 10, color: 'white', fontSize: '1rem', backgroundColor:"darkred" }} onClick={() => handleNavigate("/recommandation")}>Se faire recommander</Button>,
     ];
     return (
         <Box

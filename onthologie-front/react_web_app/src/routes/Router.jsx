@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Home from "../components/pages/Home";
-import Nopage from "../components/pages/NoPage";
+import Nopage from "../components/pages/FiltrePage";
 import InfoPage from "../components/pages/InfoPage";
 
 export default function App() {
@@ -10,7 +10,7 @@ export default function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/info" element={<InfoPage />}></Route>
-        <Route path="/*" element={<Nopage />} />
+        <Route path="/filtre" element={<Nopage />} />
       </Routes>
     </BrowserRouter>
   );

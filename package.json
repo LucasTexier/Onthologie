@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "raw-loader": "^4.0.2",
+    "rdflib": "^2.2.34-1",
+    "sparql-client": "^0.2.0"
+  }
+}
