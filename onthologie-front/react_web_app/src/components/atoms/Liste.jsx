@@ -31,13 +31,12 @@ export default function Liste({ values = [], onSelect = () => {}, type }) {
 
   const handleOk = () => {
     onSelect(selectedValue);
-    type = 'OK'
     handleClose();
   };
 
   return (
     <div style={{ textAlign: 'left', marginLeft: '50px', marginRight:'50px' }}>
-    <Button onClick={handleClickOpen} style={{ color: 'darkred' }}>Choose the {type} </Button>
+    <Button onClick={handleClickOpen} style={{ color: 'darkred' }}>Choisis le {type} </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Choose the {type} </DialogTitle>
         <DialogContent>
