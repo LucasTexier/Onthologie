@@ -36,15 +36,15 @@ export default function Liste({ values = [], onSelect = () => {}, type }) {
 
   return (
     <div style={{ textAlign: 'left', marginLeft: '50px', marginRight:'50px' }}>
-    <Button onClick={handleClickOpen} style={{ color: 'darkred' }}>Choisis le {type} </Button>
+    <Button onClick={handleClickOpen} style={{ color: 'darkred' }}> Choisir {type} </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle>Choose the {type} </DialogTitle>
+        <DialogTitle>Choisir {type} </DialogTitle>
         <DialogContent>
           <Box
             component="form"
           >
             <FormControl sx={{ m: 1, minWidth: 300}}>
-              <InputLabel>Select an option</InputLabel>
+              <InputLabel>Selection</InputLabel>
               <Select
                 value={selectedValue}
                 onChange={handleChange}

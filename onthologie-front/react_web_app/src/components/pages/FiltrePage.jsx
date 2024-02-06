@@ -15,6 +15,10 @@ function FiltrePage() {
     const [selectedLanguage, setSelectedLanguage] = useState(null);
     const [selectedLanguageValue, setSelectedLanguageValue] = useState(null);
 
+    // durée
+    const [selectedDuree, setSelectedDuree] = useState(null);
+    const [selectedDureeValue, setSelectedDureeValue] = useState(null);
+
     const handleSelectProducer = (producer) => {
         setSelectedProducer(producer);
         setSelectedProducerValue(producer);
@@ -25,10 +29,17 @@ function FiltrePage() {
         setSelectedLanguageValue(language);
     };
 
+    const handleSelectDuree = (duree) => {
+      setSelectedDuree(duree);
+      setSelectedDureeValue(duree);
+    };
+
     const handleSearch = () => {
       console.log('selectedProducerValue', selectedProducerValue);
       console.log('selectedLanguageValue', selectedLanguageValue);
-      if (selectedProducerValue) {
+
+      if (selectedProducerValue && selectedLanguageValue){
+        if (selectedDureeValue === 'long métrage'){
           fetch('http://localhost:3030/ds/query', {
               method: 'POST',
               headers: {
@@ -40,6 +51,8 @@ function FiltrePage() {
                   WHERE {
                       ?film cinema:estRéaliséePar cinema:${selectedProducerValue}.
                       ?film cinema:estDisponibleEn cinema:${selectedLanguageValue}.
+                      ?film cinema:Durée ?duree.
+                      FILTER (?duree >= 60)  
                   }
               `),
           })
@@ -52,7 +65,35 @@ function FiltrePage() {
               console.error('Erreur lors de la requête SPARQL :', error);
           });
       }
+        if (selectedDureeValue === 'court métrage'){
+          fetch('http://localhost:3030/ds/query', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: 'query=' + encodeURIComponent(`
+                  PREFIX cinema: <http://www.semanticweb.org/33695/ontologies/2024/0/cinema#>
+                  SELECT ?film
+                  WHERE {
+                      ?film cinema:estRéaliséePar cinema:${selectedProducerValue}.
+                      ?film cinema:estDisponibleEn cinema:${selectedLanguageValue}.
+                      ?film cinema:Durée ?duree.
+                      FILTER (?duree <= 60)  
+                  }
+              `),
+          })
+          .then(response => response.json())
+          .then(data => {
+              setSearchResult(data);
+              console.log(data);
+          })
+          .catch(error => {
+              console.error('Erreur lors de la requête SPARQL :', error);
+          });
+      }
+      }
   };
+  
 
     const extractFilmNames = () => {
         if (searchResult) {
@@ -71,7 +112,7 @@ function FiltrePage() {
             <TopBar />
             <h1 style={{ textAlign: 'center', color: 'white', fontSize: '40px', marginTop: '5%' }}> Trouve ton film par filtrage !</h1>
             <Divider style={{ marginLeft: '40%', backgroundColor: 'white', width: '20%' }} />
-            <Filters onSelectProducer={handleSelectProducer} onSelectLanguage={handleSelectLanguage}/>
+            <Filters onSelectProducer={handleSelectProducer} onSelectLanguage={handleSelectLanguage} onSelectDuree={handleSelectDuree}/>
             <Search onSearch={handleSearch} />
             {searchResult && (
                 <div style={{ backgroundColor: 'darkgrey', fontSize: '2rem', display: 'flex', textAlign: 'center', marginTop: '2rem', marginLeft: '5%', marginRight: '5%' }}>

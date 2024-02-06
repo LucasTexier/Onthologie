@@ -9,7 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/info" element={<InfoPage />}></Route>
+        <Route path="/recommandation" element={<InfoPage />}></Route>
         <Route path="/filtre" element={<Nopage />} />
       </Routes>
     </BrowserRouter>
