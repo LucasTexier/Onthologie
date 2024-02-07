@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const BasicButtons = ({ onClick }) => {
+const BasicButton = ({ onClick }) => {
   return (
     <Button
       onClick={onClick}
@@ -12,4 +12,4 @@ const BasicButtons = ({ onClick }) => {
   );
 }
 
-export default BasicButtons;
+export default BasicButton;

@@ -1,33 +1,45 @@
+// InfoPage.jsx
 import React, { useState } from "react";
 import TopBar from "../atoms/TopBar";
 import Divider from "@mui/material/Divider";
 import Autocomplete from "../atoms/Autocomplete";
-import Button from "@mui/material/Button";
+import BasicButton from "../atoms/search2";
+import Autocomplete2 from "../atoms/Autocomplete2";
 
 function InfoPage() {
-  const [filmNames, setFilmNames] = useState([]);
-  const [selectedFilm, setSelectedFilm] = useState(null);
+  const [actors, setActors] = useState([]);
+  const [filmsByActor, setFilmsByActor] = useState([]);
 
-  const handleSearch = (filmName) => {
-    return new Promise((resolve, reject) => {
-      if (filmName) {
-        fetchActorsInFilm(filmName)
-          .then((actorNames) => {
-            fetchFilmsByActors(actorNames)
-              .then(() => {
-                resolve();
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      } else {
-        reject("No film selected");
-      }
-    });
+  const handleSearchForActorsInFilm = (filmName) => {
+    if (!filmName) {
+      console.error("No film selected");
+      return;
+    }
+
+    fetchActorsInFilm(filmName)
+      .then((actorNames) => {
+        setActors(actorNames);
+        console.log("Actors in film:", actorNames);
+      })
+      .catch((error) => {
+        console.error("Error searching for actors in film:", error);
+      });
+  };
+
+  const handleSearchForFilmsByActor = (actorName) => {
+    if (!actorName) {
+      console.error("No actor selected");
+      return;
+    }
+
+    fetchFilmsByActor(actorName)
+      .then((films) => {
+        setFilmsByActor(films);
+        console.log("Films played by actor:", films);
+      })
+      .catch((error) => {
+        console.error("Error searching for films by actor:", error);
+      });
   };
 
   const fetchActorsInFilm = (filmName) => {
@@ -54,7 +66,7 @@ function InfoPage() {
       });
   };
 
-  const fetchFilmsByActors = (actorNames) => {
+  const fetchFilmsByActor = (actorName) => {
     return fetch("http://localhost:3030/ds/query", {
       method: "POST",
       headers: {
@@ -64,29 +76,17 @@ function InfoPage() {
         PREFIX cinema: <http://www.semanticweb.org/33695/ontologies/2024/0/cinema#>
         SELECT DISTINCT ?film
         WHERE {
-          ?film cinema:estJouéPar ?acteur .
-          VALUES ?acteur { ${actorNames.map((name) => `cinema:${name}`).join(" ")} }
-          FILTER (?film != cinema:${selectedFilm})
+          ?film cinema:estJouéPar cinema:${actorName} .
         }
       `)}`,
     })
       .then((response) => response.json())
-      .then((filmData) => {
-        const films = filmData.results.bindings.map((result) => {
+      .then((data) => {
+        const films = data.results.bindings.map((result) => {
           const uri = result.film.value;
           return uri.split("#")[1]; // Extraire le nom après le '#'
         });
-        setFilmNames(films);
-      });
-  };
-
-  const handleSubmit = () => {
-    handleSearch(selectedFilm)
-      .then(() => {
-        console.log("Requêtes terminées avec succès");
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la recherche :", error);
+        return films;
       });
   };
 
@@ -98,18 +98,27 @@ function InfoPage() {
         Trouve ton film par recommandation !
       </h1>
       <Divider style={{ marginLeft: "40%", backgroundColor: "white", width: "20%" }} />
-      <Autocomplete onSelect={(film) => setSelectedFilm(film)} />
-      <Button
-        onClick={handleSubmit}
-        style={{ marginLeft: "44%", marginTop: "5%", color: "white", fontSize: "1.2rem", backgroundColor: "darkred", border: "2px solid black" }}
-      >
-        Search
-      </Button>
-      <ul>
-        {filmNames.map((name, index) => (
-          <li key={index}>{name}</li>
-        ))}
-      </ul>
+      <Autocomplete onSelect={handleSearchForActorsInFilm} />
+      <BasicButton onClick={() => handleSearchForActorsInFilm()} />
+      <h2 style={{ textAlign: "center", color: "white", fontSize: "25px", marginTop: "2%" }}>
+        {" "}
+        Acteurs dans le film :
+        <ul>
+          {actors.map((actor, index) => (
+            <li key={index}>{actor}</li>
+          ))}
+        </ul>
+      </h2>
+      <Autocomplete2 onSelectActor={handleSearchForFilmsByActor} />
+      <h2 style={{ textAlign: "center", color: "white", fontSize: "25px", marginTop: "2%" }}>
+        {" "}
+        Films joués par l'acteur/ice :
+        <ul>
+          {filmsByActor.map((film, index) => (
+            <li key={index}>{film}</li>
+          ))}
+        </ul>
+      </h2>
     </>
   );
 }
